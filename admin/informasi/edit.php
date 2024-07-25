@@ -4,7 +4,7 @@ if($_SESSION['status']!="login"){
     header("location:./login.php?pesan=belum_login");
 }
 
-require_once "./../../src/cphp";
+require_once "./../../src/c.php";
 $id = htmlspecialchars($_GET['id']);
 $sql_query = "SELECT * FROM informasi where id='$id'";
 $result = mysqli_query($connection, $sql_query);
@@ -220,7 +220,7 @@ if ($res = $result->fetch_object()) {
                     icon: 'threeVerticalDots',
                     items: [ 'strikethrough', 'superscript', 'subscript' ]
                 },
-                '|', 'link', 'imageInsert','codeBlock','removeFormat',
+                '|', 'link', 'imageInsert', 'mediaEmbed', 'codeBlock','removeFormat',
                 '|', 'bulletedList', 'numberedList', 'alignment',
                 
                 ],
@@ -234,6 +234,9 @@ if ($res = $result->fetch_object()) {
                 'imageStyle:side',
                 'toggleImageCaption'
                 ],
+            },
+            mediaEmbed: {
+                previewsInData: true,
             },
             list: {
                 options: [

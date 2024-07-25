@@ -208,7 +208,7 @@ if($_SESSION['status']!="login"){
                     icon: 'threeVerticalDots',
                     items: [ 'strikethrough', 'superscript', 'subscript' ]
                 },
-                '|', 'link', 'imageInsert','codeBlock','removeFormat',
+                '|', 'link', 'imageInsert', 'mediaEmbed', 'codeBlock','removeFormat',
                 '|', 'bulletedList', 'numberedList', 'alignment',
                 
                 ],
@@ -222,6 +222,9 @@ if($_SESSION['status']!="login"){
                 'imageStyle:side',
                 'toggleImageCaption'
                 ],
+            },
+            mediaEmbed: {
+                previewsInData: true,
             },
             list: {
                 options: [
