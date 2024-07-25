@@ -1,0 +1,556 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ensiklopedia Tenun</title>
+  <link rel="shortcut icon" href="./dist/icons/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  <link rel="stylesheet" href="dist/output.css">
+  <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
+</head>
+<style>
+  /* Style untuk card */
+  .card {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .card img {
+    width: 100%;
+    height: auto;
+  }
+
+  .card-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+    color: white;
+  }
+
+  .card h3 {
+    margin: 0;
+  }
+
+  .card p {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .card button {
+    padding: 0.5rem 1rem;
+    background: blue;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+  }
+
+  /* Style untuk pop-up */
+  .popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 600px;
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+
+  .popup h3 {
+    margin-top: 0;
+  }
+
+  .popup-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  .popup1 {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 600px;
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+  .popup1-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+
+  .popup2 {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 600px;
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+  .popup2-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  /* Overlay */
+  .overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 500;
+  }
+
+  /* Show pop-up */
+  .show {
+    display: block;
+  }
+</style>
+<body>
+  <header class="flex flex-wrap sm:justify-start sm:flex-nowrap w-full bg-white text-sm py-4 sticky top-0 shadow z-10">
+    <nav class="w-full mx-auto px-4 sm:px-6 lg:px-8 sm:flex sm:items-center sm:justify-between" aria-label="nav">
+      <div class="flex items-center justify-between">
+        <a class="flex-none" href="./">
+          <img src="./dist/icons/logo.png" alt="Logo" class="w-16 h-16">
+        </a>
+        <div class="sm:hidden">
+          <button type="button" class="hs-collapse-toggle p-2 inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none" data-hs-collapse="#navbar-image-1" aria-controls="navbar-image-1" aria-label="Toggle navigation">
+            <svg class="hs-collapse-open:hidden flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="3" x2="21" y1="6" y2="6" />
+              <line x1="3" x2="21" y1="12" y2="12" />
+              <line x1="3" x2="21" y1="18" y2="18" />
+            </svg>
+            <svg class="hs-collapse-open:block hidden flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div id="navbar-image-1" class="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow sm:block">
+        <div class="flex flex-col gap-5 mt-5 sm:flex-row sm:items-center sm:justify-end sm:mt-0 sm:ps-5">
+          <a class="font-medium text-blue-500" href="/" aria-current="page">Beranda</a>
+          <a class="font-medium text-gray-600 hover:text-gray-400" href="/ensiklopedia-tenun/tenun/index.php">Informasi</a>
+          <a class="font-medium text-gray-600 hover:text-gray-400" href="/ensiklopedia-tenun/testimoni/index.php">Testimoni</a>
+          <a class="font-medium text-gray-600 hover:text-gray-400" href="/ensiklopedia-tenun/admin">Login</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <!-- Hero -->
+  <section class="section">
+    <div class="mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Grid -->
+      <div class="lg:grid lg:grid-cols-7 lg:gap-x-8 xl:gap-x-12 lg:items-center">
+        <div class="lg:col-span-3">
+          <span class="text-xl font-semibold text-white bg-yellow-400 px-2 py-1">Mari Jelajahi</span>
+          <h1 class="block text-3xl font-bold text-gray-800 sm:text-4xl md:text-5xl lg:text-6xl mt-2">ENSIKLOPEDIA <span class="text-teal-500">TENUN SESEK PRINGGASELA</span></h1>
+          <p class="mt-3 text-lg text-gray-800">Pringgasela adalah sebuah Kecamatan di Kabupaten Lombok Timur, Nusa Tenggara Barat. Terletak dibawah kaki Rinjani dengan Tugu sederhana ditengah perempatan jalan desa menjadi ciri khasnya.!</p>
+        </div>
+        <!-- End Col -->
+        
+        <div class="lg:col-span-4 mt-10 lg:mt-0">
+          <!-- GAMBAR START -->
+          <div class="lg:absolute lg:inset-y-32 lg:right-0 lg:w-1/2 z-0">
+            <div class="relative h-full">
+              <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide bg-center bg-cover">
+                    <img class="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full" src="./dist/images/tenun/1.jpg" />
+                  </div>
+                  <div class="swiper-slide bg-center bg-cover">
+                    <img class="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full" src="./dist/images/tenun/2.jpg" />
+                  </div>
+                  <div class="swiper-slide bg-center bg-cover">
+                    <img class="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full" src="./dist/images/tenun/3.jpg" />
+                  </div>
+                  <div class="swiper-slide bg-center bg-cover">
+                    <img class="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full" src="./dist/images/tenun/4.jpg" />
+                  </div>
+                </div>
+                <div class="swiper-pagination"></div>
+              </div>
+              <!-- <img class="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full" src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2850&q=80" alt="" /> -->
+            </div>
+            <!-- GAMBAR END -->
+          </div>
+        </div>
+        <!-- End Col -->
+      </div>
+      <!-- End Grid -->
+    </div>
+  </section>
+  <!-- End Hero -->
+  <!-- <?php include('components/hero.php') ?> -->
+  <section class="section bg-slate-100">
+    <!-- Card Blog -->
+    <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+      <!-- Title -->
+      <div class="max-w-2xl mx-auto text-center mb-10 lg:mb-14">
+        <span class="text-xl bg-yellow-400 text-white px-3 py-1">Fun Fact</span>
+        <h2 class="mt-3 text-2xl font-bold md:text-4xl md:leading-tight">PRINGGASELA</h2>
+        <p class="mt-1 text-gray-600">Berikut beberapa fakta menarik menganai kain sesek. Pringgasela</p>
+      </div>
+      <br>
+      <!-- End Title -->
+
+
+ 
+      
+    
+      <!-- Pop-up -->
+      <div id="popup" class="popup">
+        <button class="popup-close" onclick="closePopup()">&times;</button>
+        <center><strong><h1>Sejarah Kain Tenun Sesek</h1></strong></center> 
+        <p>Desa Pringgasela, Kecamatan Pringgasela Lombok Timur dikenal sebagai salah satu daerah sentra pengrajin kain tenun. Desa ini telah menghasilkan kain tenun berkualitas tinggi selama bertahun-tahun, dengan teknik yang diwariskan dari generasi ke generasi. Penduduk desa menggunakan alat tenun tradisional untuk membuat kain dengan motif dan desain yang khas, mencerminkan kekayaan budaya dan warisan mereka.</p>
+        <p>Untuk informasi lebih lanjut, kunjungi <a href="https://www.jejaklombok.com/2021/05/begini-sejarah-singkat-kain-tenun-sesek.html" target="_blank"><strong style="color: blue;">artikel ini</strong></a>.</p>
+      </div>
+      <div id="popup1" class="popup1">
+        <button class="popup-close" onclick="closePopup1()">&times;</button>
+       <center><strong><h1>Fakta Menarik Kain Tenun</h1></strong></center> 
+        <p>Kain Tenun sebagai salah satu wastra Indonesia yang dikenal sebagai kekayaan warisan
+          budaya tidak saja dilihat dari teknik dan aneka ragam corak serta jenis kain yang dibuat, tetapi
+          lebih jauh kita dapat mengenal berbagai fungsi dan arti kain dalam kehidupan masyrakatnya
+          yang mencerminkan adat istiadat, kebudayaan, dan kebiasaan budaya (cultural habit), yang
+          bermuara pada jati dirinya sebagai komponen bangsa Indonesia.</p>
+        <p>Untuk informasi lebih lanjut, kunjungi <a  href="https://media.neliti.com/media/publications/308718-kajian-tentang-tenun-sesek-dari-desa-pri-9683d32e.pdf" target="_blank"><strong style="color: blue;">artikel ini</strong></a>.</p>
+      </div>
+
+      <div id="popup2" class="popup2">
+        <button class="popup-close" onclick="closePopup2()">&times;</button>
+       <center><strong><h1>Kain Tenun Sesek</h1></strong></center> 
+        <p>Tenun (Sesek) Pringgasela adalah kerajinan tenun tradisional Indonesia yang berasal dari Nusa Tenggara Barat dan telah ditetapkan oleh Direktorat Warisan dan Budaya sebagai Warisan Budaya Takbenda Indonesia pada tahun 2018 dengan domain budaya Kemahiran dan Kerajinan Tradisional.</p>
+        <p>Untuk informasi lebih lanjut, kunjungi <a  href="https://www.gurusiana.id/read/murdianah/article/tenun-pringgasela-387612" target="_blank"><strong style="color: blue;">artikel ini</strong></a>.</p>
+      </div>
+    
+      <!-- Overlay -->
+      <div id="overlay" class="overlay" onclick="closePopup()"></div>
+    
+      <script>
+        function openPopup() {
+          document.getElementById('popup').classList.add('show');
+          document.getElementById('overlay').classList.add('show');
+        }
+        function openPopup1() {
+          document.getElementById('popup1').classList.add('show');
+          document.getElementById('overlay').classList.add('show');
+        }
+        function closePopup1() {
+          document.getElementById('popup1').classList.remove('show');
+          document.getElementById('overlay').classList.remove('show');
+        }
+    
+    
+        function closePopup() {
+          document.getElementById('popup').classList.remove('show');
+          document.getElementById('overlay').classList.remove('show');
+        }
+        function openPopup2() {
+          document.getElementById('popup2').classList.add('show');
+          document.getElementById('overlay').classList.add('show');
+        }
+        function closePopup2() {
+          document.getElementById('popup2').classList.remove('show');
+          document.getElementById('overlay').classList.remove('show');
+        }
+        
+      </script>
+
+
+      <!-- Grid -->
+      <section id="product" class="pt-36 pb-32 bg-slate-100">
+        <!-- Card container -->
+        <div class="flex flex-wrap justify-center">
+          
+          <!-- Row 1: Two Cards -->
+          <div class="w-full flex flex-wrap justify-center space-x-4">
+            
+            <!-- Card 1 -->
+            <div class="card w-1/2 max-w-lg mx-2 my-4 bg-white rounded-lg shadow-lg transform transition-transform duration-500 hover:scale-105 hover:shadow-2xl hover:translate-y-2 hover:rotate-1 hover:translate-x-1">
+              <img src="dist/images/tenun/tt.jpg" alt="Product Image" class="w-full h-64 rounded-t-lg">
+              <div class="p-6">
+                <h5 class="text-lg font-semibold text-gray-800">Sejarah Kain Tenung Sesek</h5>
+                <p class="mt-2 text-gray-600">Desa Pringgasela, Kecamatan Pringgasela Lombok Timur dikenal sebagai salah satu daerah sentra pengrajin kain tenun.</p>
+                <button onclick="openPopup()">Baca Selengkapnya</button>
+              </div>
+            </div>
+            
+            <!-- Card 2 -->
+            <div class="card w-1/2 max-w-lg mx-2 my-4 bg-white rounded-lg shadow-lg transform transition-transform duration-500 hover:scale-105 hover:shadow-2xl hover:translate-y-2 hover:rotate-1 hover:translate-x-1">
+              <img src="dist/images/tenun/2.jpg" alt="Product Image" class="w-full h-64 rounded-t-lg">
+              <div class="p-6">
+                <h5 class="text-lg font-semibold text-gray-800">Fakta Menarik Tenun</h5>
+                <p class="mt-2 text-gray-600">Kain Tenun sebagai salah satu wastra Indonesia yang dikenal sebagai kekayaan warisan budaya tidak saja dilihat dari tek.</p>
+                <button onclick="openPopup1()">Baca Selengkapnya</button>
+              </div>
+            </div>
+            
+          </div>
+          
+          <!-- Row 2: One Card -->
+          <div class="w-full flex justify-center mt-4">
+            
+            <!-- Card 3 -->
+            <div class="card w-full max-w-2xl mx-2 my-4 bg-white rounded-lg shadow-lg transform transition-transform duration-500 hover:scale-105 hover:shadow-2xl hover:translate-y-2 hover:rotate-1 hover:translate-x-1">
+              <img src="dist/images/tenun/3.jpg" alt="Product Image" class="w-full h-64 rounded-t-lg">
+              <div class="p-6">
+                <h5 class="text-lg font-semibold text-gray-800">Kain Tenun Sesek</h5>
+                <p class="mt-2 text-gray-600">Tenun (Sesek) Pringgasela adalah kerajinan tenun tradisional Indonesia yang berasal dari Nusa Tenggara Barat dan telah...</p>
+                <button onclick="openPopup2()">Baca Selengkapnya</button>
+              </div>
+            </div>
+            
+          </div>
+          
+        </div>
+      </section>
+      
+      
+
+
+
+
+
+    <!-- CARD -->
+      <!-- sundel -->
+
+      </div>
+      <!-- End Grid -->
+    </div>
+    <!-- End Card Blog -->
+  </section>
+  <!-- Kain Tenun Sasak -->
+  <section class="section bg-teal-100 bg-opacity-25">
+    <div class="px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+      <!-- Title -->
+      <div class="max-w-2xl mx-auto text-center mb-10 lg:mb-14">
+        <h2 class="text-2xl font-bold md:text-4xl md:leading-tight">Kain Tenun Sasak Pringasella</h2>
+        <p class="mt-1 text-gray-600">Berikut kekayaan Kain Tenun Pringasella</p>
+      </div>
+      <!-- End Title -->
+      
+      <!-- Grid -->
+      <div class="flex flex-wrap justify-center">
+        <!-- Card -->
+        <a class="w-full md:w-1/2 lg:w-1/3 group hover:bg-gray-100 rounded-xl p-5 transition-all" href="https://www.youtube.com/watch?v=KgKeLCZZ0SA">
+          <div class="aspect-w-16">
+            <div class="relative overflow-hidden">
+              <video class="group-hover:brightness-50 transition duration-500 ease-in-out" muted="" autoplay="" __idm_id__="606209">
+                <source src="./dist/vd/KAIN TENUN TRADISIONAL; PRINGGASELA - Nusa tenggara Barat.mp4">
+              </video>
+              <h1 class="text-2xl font-bold text-white absolute left-2 bottom-5 lg:-bottom-20 lg:group-hover:-translate-y-24 transition duration-300 ease-in-out">Tenun Sesek Pringgasela</h1>
+            </div>
+          </div>
+        </a>
+        <!-- End Card -->
+        <!-- Card -->
+        <a class="w-full md:w-1/2 lg:w-1/3 group hover:bg-gray-100 rounded-xl p-5 transition-all" href="https://www.youtube.com/watch?v=ta7QBI_9SJw">
+          <div class="aspect-w-16">
+            <div class="relative overflow-hidden">
+              <video class="group-hover:brightness-50 transition duration-500 ease-in-out" muted="" autoplay="" __idm_id__="606209">
+                <source src="./dist/vd/pulau lombok.mp4">
+              </video>
+              <h1 class="text-2xl font-bold text-white absolute left-2 bottom-5 lg:-bottom-20 lg:group-hover:-translate-y-24 transition duration-300 ease-in-out">Pulau Lombok</h1>
+            </div>
+          </div>
+        </a>
+        <!-- End Card -->
+        <!-- Card -->
+        <a class="w-full md:w-1/2 lg:w-1/3 group hover:bg-gray-100 rounded-xl p-5 transition-all" href="https://youtu.be/_1oZuX0C1Qs?si=R7hY-XYOf8u_Hyhd">
+          <div class="aspect-w-16">
+            <div class="relative overflow-hidden">
+              <video class="group-hover:brightness-50 transition duration-500 ease-in-out" muted="" autoplay="" __idm_id__="606209">
+                <source src="./dist/vd/fakta terkait.mp4">
+              </video>
+              <h1 class="text-2xl font-bold text-white absolute left-2 bottom-5 lg:-bottom-20 lg:group-hover:-translate-y-24 transition duration-300 ease-in-out">Fakta Terkait</h1>
+            </div>
+          </div>
+        </a>
+        <!-- End Card -->
+        <!-- Card -->
+        <a class="w-full md:w-1/2 lg:w-1/3 group hover:bg-gray-100 rounded-xl p-5 transition-all" href="https://youtu.be/57QtdXZBqfI?si=rSubAJIdt-avGjPW">
+          <div class="aspect-w-16">
+            <div class="relative overflow-hidden">
+              <video class="group-hover:brightness-50 transition duration-500 ease-in-out" muted autoplay>
+                <source src="dist/vd/Fakta Menarik.mp4" />
+              </video>
+              <h1 class="text-2xl font-bold text-white absolute left-2 bottom-5 lg:-bottom-20 lg:group-hover:-translate-y-24 transition duration-300 ease-in-out">Fakta Menarik</h1>
+            </div>
+          </div>
+        </a>
+        <!-- End Card -->
+        <!-- Card -->
+        <a class="w-full md:w-1/2 lg:w-1/3 group hover:bg-gray-100 rounded-xl p-5 transition-all" href="https://www.youtube.com/watch?v=1cssYxDOMHc">
+          <div class="aspect-w-16">
+            <div class="relative overflow-hidden">
+              <video class="group-hover:brightness-50 transition duration-500 ease-in-out" muted autoplay>
+                <source src="dist/vd/sejarah.mp4" />
+              </video>
+              <h1 class="text-2xl font-bold text-white absolute left-2 bottom-5 lg:-bottom-20 lg:group-hover:-translate-y-24 transition duration-300 ease-in-out">Sejarah</h1>
+            </div>
+          </div>
+        </a>
+        <!-- End Card -->
+      </div>
+      <!-- End Grid -->
+    </div>
+
+
+    <!-- style -->
+    <style>
+      /* body {
+          font-family: Arial, sans-serif;
+          margin: 0;
+          padding: 0;
+      } */
+      #map-container {
+          width: 100%;
+          height: 100vh; /* Full height minus the footer */
+          display: flex;
+  justify-content: center;
+      }
+      #map {
+          width: 70%;
+          height: calc(70vh - 50px); /* Adjust height based on footer height */
+          border: 0;
+      }
+    
+      
+  </style>
+
+
+<div class="max-w-2xl mx-auto text-center mb-10 lg:mb-14">
+  <h2 class="text-2xl font-bold md:text-4xl md:leading-tight">Lokasi Kain Tenun Sasak Pringasella</h2>
+  <p class="mt-1 text-gray-600">Berikut lokasi desa Kain Tenun Pringasella</p>
+  <h3>Jam Buka 8:30-5:30</h3>
+</div>
+
+    <div id="map-container">
+      <iframe
+          id="map"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126264.33261727323!2d116.37775257617751!3d-8.522628365431709!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dcc3502259db5a1%3A0x1aaee9a8a275578f!2sPringgasela%2C%20East%20Lombok%20Regency%2C%20West%20Nusa%20Tenggara!5e0!3m2!1sen!2sid!4v1719280012446!5m2!1sen!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+       
+      </iframe>
+  </div>
+  
+  </section>
+  <!-- End Kain Tenun Sasak -->
+  <!-- ========== FOOTER ========== -->
+  <footer class="mt-auto w-full bg-gray-900 w-full py-10 px-4 sm:px-6 lg:px-8 mx-auto">
+    <!-- Grid -->
+    <div class="text-center">
+      <div>
+        <a class="flex-none text-xl font-semibold text-white" href="#" aria-label="Brand">ENSIKLOPEDIA TENUN</a>
+      </div>
+      <!-- End Col -->
+      
+      <div class="mt-3">
+        <p class="text-gray-500">Abdul Hakam - <a class="font-semibold text-blue-600 hover:text-blue-700" href="#">1901011290</a></p>
+        <p class="text-gray-500">Mahasiswa Universitas Bumigora Mataram</p>
+      </div>
+      
+      <!-- Social Brands -->
+      <div class="mt-3 space-x-2">
+        <a class="size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none" target="_blank" href="mailto:kambgz@gmail.com">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2zm0 2v.511l-8 6.223-8-6.222V6h16zM4 18V9.044l7.386 5.745a.994.994 0 0 0 1.228 0L20 9.044 20.002 18H4z"></path></svg>
+        </a>
+        <a class="size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none" target="_blank" href="https://www.youtube.com/channel/UC4i_XR7dUKRJ_ZXccCe3qrA">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M21.593 7.203a2.506 2.506 0 0 0-1.762-1.766C18.265 5.007 12 5 12 5s-6.264-.007-7.831.404a2.56 2.56 0 0 0-1.766 1.778c-.413 1.566-.417 4.814-.417 4.814s-.004 3.264.406 4.814c.23.857.905 1.534 1.763 1.765 1.582.43 7.83.437 7.83.437s6.265.007 7.831-.403a2.515 2.515 0 0 0 1.767-1.763c.414-1.565.417-4.812.417-4.812s.02-3.265-.407-4.831zM9.996 15.005l.005-6 5.207 3.005-5.212 2.995z"></path></svg>
+        </a>
+        <a class="size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none" target="_blank" href="https://www.instagram.com/0ca30_/">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M11.999 7.377a4.623 4.623 0 1 0 0 9.248 4.623 4.623 0 0 0 0-9.248zm0 7.627a3.004 3.004 0 1 1 0-6.008 3.004 3.004 0 0 1 0 6.008z"></path><circle cx="16.806" cy="7.207" r="1.078"></circle><path d="M20.533 6.111A4.605 4.605 0 0 0 17.9 3.479a6.606 6.606 0 0 0-2.186-.42c-.963-.042-1.268-.054-3.71-.054s-2.755 0-3.71.054a6.554 6.554 0 0 0-2.184.42 4.6 4.6 0 0 0-2.633 2.632 6.585 6.585 0 0 0-.419 2.186c-.043.962-.056 1.267-.056 3.71 0 2.442 0 2.753.056 3.71.015.748.156 1.486.419 2.187a4.61 4.61 0 0 0 2.634 2.632 6.584 6.584 0 0 0 2.185.45c.963.042 1.268.055 3.71.055s2.755 0 3.71-.055a6.615 6.615 0 0 0 2.186-.419 4.613 4.613 0 0 0 2.633-2.633c.263-.7.404-1.438.419-2.186.043-.962.056-1.267.056-3.71s0-2.753-.056-3.71a6.581 6.581 0 0 0-.421-2.217zm-1.218 9.532a5.043 5.043 0 0 1-.311 1.688 2.987 2.987 0 0 1-1.712 1.711 4.985 4.985 0 0 1-1.67.311c-.95.044-1.218.055-3.654.055-2.438 0-2.687 0-3.655-.055a4.96 4.96 0 0 1-1.669-.311 2.985 2.985 0 0 1-1.719-1.711 5.08 5.08 0 0 1-.311-1.669c-.043-.95-.053-1.218-.053-3.654 0-2.437 0-2.686.053-3.655a5.038 5.038 0 0 1 .311-1.687c.305-.789.93-1.41 1.719-1.712a5.01 5.01 0 0 1 1.669-.311c.951-.043 1.218-.055 3.655-.055s2.687 0 3.654.055a4.96 4.96 0 0 1 1.67.311 2.991 2.991 0 0 1 1.712 1.712 5.08 5.08 0 0 1 .311 1.669c.043.951.054 1.218.054 3.655 0 2.436 0 2.698-.043 3.654h-.011z"></path></svg>
+        </a>
+      </div>
+      <!-- End Social Brands -->
+    </div>
+    <!-- End Grid -->
+  </footer>
+  <!-- ========== END FOOTER ========== -->
+  <div style="position:fixed;right:20px;bottom:20px;">
+    <a href="https://api.whatsapp.com/send?phone=+6287758880908&amp;text=Halo saya tertarik dengan kain tenun sesek, bagaimana cara saya agar mendapatkan kain tenun sesek??">
+    <!-- <button style="background:#32C03C;vertical-align:center;height:36px;border-radius:5px"> -->
+    <!-- <img src="TENUN/wa.png"> Whatsapp Kami</button></a> -->
+    <img src="./dist/images/wa.png" alt="" height="60px" width="60px"> Whatsapp Kami!</a>
+    </div>
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+  <script>
+    var swiper = new Swiper('.mySwiper', {
+      spaceBetween: 30,
+      effect: 'fade',
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      autoplay: {
+        delay: 2500,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+    });
+    var swiper2 = new Swiper('.mySwiper2', {
+      spaceBetween: 30,
+      effect: 'fade',
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      autoplay: {
+        delay: 2500,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+    });
+  </script>
+  <script type="module" crossorigin src="./dist/assets/index-fmZGMq0W.js"></script>
+</body>
+
+</html>
